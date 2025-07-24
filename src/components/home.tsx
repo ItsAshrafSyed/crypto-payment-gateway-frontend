@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import axios from "axios";
 
@@ -15,6 +16,9 @@ export default function Home() {
 	const [payerWallet, setPayerWallet] = useState("");
 	const [merchantWallet, setMerchantWallet] = useState("");
 	const [paymentLink, setPaymentLink] = useState("");
+	const [sessionId, setSessionId] = useState("");
+
+	const router = useRouter();
 
 	useEffect(() => {
 		if (connected && publicKey) {
@@ -34,6 +38,7 @@ export default function Home() {
 
 			if (response.data.success) {
 				setPaymentLink(response.data.paymentLink);
+				setSessionId(response.data.sessionId);
 			} else {
 				alert("Failed to generate payment link");
 			}
@@ -43,6 +48,10 @@ export default function Home() {
 		}
 	};
 
+	const goToRecentTransaction = () => {
+		router.push(`/recent-payments`);
+	};
+
 	return (
 		<div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
 			<div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
@@ -50,8 +59,7 @@ export default function Home() {
 					Crypto Payment Gateway
 				</h1>
 				<p className="text-gray-600 text-center mt-2">
-					Welcome, Merchant! <br /> Connect your wallet & generate payment
-					links.
+					Connect your wallet & generate payment links.
 				</p>
 
 				<div className="flex flex-col items-center mt-4">
@@ -97,6 +105,13 @@ export default function Home() {
 							className="w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
 						>
 							Generate Payment Link
+						</button>
+
+						<button
+							onClick={goToRecentTransaction}
+							className="w-full mt-2 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
+						>
+							Go to Recent Transaction
 						</button>
 					</div>
 				)}
