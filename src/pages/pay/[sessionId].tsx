@@ -12,7 +12,6 @@ interface Token {
 }
 
 const PaymentPage = ({ sessionId }: { sessionId: string }) => {
-	// payment page for a session
 	const { connection } = useConnection()
 	const { publicKey, sendTransaction } = useWallet()
 	const [tokens, setTokens] = useState<Token[]>([])
