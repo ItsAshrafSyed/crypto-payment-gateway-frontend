@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { PublicKey } from "@solana/web3.js"
 import axios from "axios"
 
-const USDC_MINT = process.env.USDC_MINT as string
+// const USDC_MINT = process.env.USDC_MINT as string
 
 interface Token {
 	mint: string
